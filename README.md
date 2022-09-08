@@ -2,6 +2,8 @@
 
 A sandbox for everything AKS in Azure.
 
+> This project makes use of the (https://editorconfig.org/)[EditorConfig] in order to maintain consistency. For VS Code, there is an extension you need to install in order for it to work :)
+
 ## Creating a Managed Identity
 
 First of all, define the name and the Resource Group of the managed identity. This can be set as environmental variables, and reused later - like this:
