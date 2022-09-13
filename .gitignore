@@ -2,7 +2,7 @@
 .terraform/
 terraform.tfstate*
 errored.tfstate*
-.terraform.lock.hcl
+*.lock.hcl
 
 # Do not include remote-state-create
 remote-state-create
