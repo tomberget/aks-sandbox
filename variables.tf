@@ -4,6 +4,12 @@ variable "environment" {
   default     = "test"
 }
 
+variable "postfix" {
+  type = string
+  description = "A postfix only used by terratest"
+  default = ""
+}
+
 variable "location" {
   type        = string
   description = "The Azure location where the items will be deployed"
