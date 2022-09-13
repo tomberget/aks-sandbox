@@ -5,9 +5,9 @@ variable "environment" {
 }
 
 variable "postfix" {
-  type = string
+  type        = string
   description = "A postfix only used by terratest"
-  default = ""
+  default     = ""
 }
 
 variable "location" {
@@ -31,11 +31,11 @@ variable "default_node_count" {
 variable "node_pool_vm_size" {
   type        = string
   description = "What kind of Virtual Machines the cluster will be utilizing."
-  default ="Standard_D2_v2"
+  default     = "Standard_D2_v2"
 }
 
 variable "node_pool_node_count" {
   type        = number
   description = "Number of nodes in the default node pool"
-  default = 1
+  default     = 1
 }
