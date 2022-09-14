@@ -39,3 +39,9 @@ variable "node_pool_node_count" {
   description = "Number of nodes in the default node pool"
   default     = 1
 }
+
+variable "additional_node_pools" {
+  type        = number
+  description = "The number of additional node pools to spin up"
+  default     = 3
+}

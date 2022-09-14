@@ -23,7 +23,9 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
 }
 
 resource "azurerm_kubernetes_cluster_node_pool" "aks_cluster_node_pool" {
-  name                  = "internal"
+  count = var.additional_node_pools
+
+  name                  = format("additional%s", count.index)
   kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_cluster.id
   vm_size               = var.node_pool_vm_size
   node_count            = var.node_pool_node_count
