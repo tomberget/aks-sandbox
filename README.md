@@ -4,9 +4,9 @@ A sandbox for everything AKS in Azure.
 
 > This project makes use of the [EditorConfig](https://editorconfig.org/) in order to maintain consistency. For VS Code, there is an extension you need to install in order for it to work :)
 
-## Using a *Service Principal* using the AZ CLI
+## Creating a *Service Principal* using the *AZ CLI*
 
-### Creating a *Service Principal* using cert
+### Creating a *Service Principal* with certificate
 
 First of all, define the *Service Principal* **name**, the *Resource Group* **name** and the location and *Key Vault* to use. This can be set as environmental variables, and reused later - like this:
 
