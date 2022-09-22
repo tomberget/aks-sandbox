@@ -8,23 +8,14 @@ root = true
 end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+charset = utf-8
 
 [*.{tf,tfvars}]
-indent_style = space
-indent_size = 2
-charset = utf-8
 
 [*.{yaml,yml}]
-indent_style = space
-indent_size = 2
-charset = utf-8
 
 [*.{groovy}]
-indent_style = space
-indent_size = 2
-charset = utf-8
 
 [{Dockerfile}]
-indent_style = space
-indent_size = 2
-charset = utf-8
