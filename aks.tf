@@ -1,38 +1,12 @@
-resource "azurerm_resource_group" "aks" {
-  name     = format("rg-aks-%s", local.environment)
-  location = var.location
-}
+module "aks" {
+  source = "./modules/aks"
 
-resource "azurerm_kubernetes_cluster" "aks_cluster" {
-  name                = format("aks-cluster-%s", local.environment)
-  location            = azurerm_resource_group.aks.location
-  resource_group_name = azurerm_resource_group.aks.name
-  dns_prefix          = format("%saks", local.environment)
+  count = var.aks_enabled ? 1 : 0
 
-  default_node_pool {
-    name       = "default"
-    node_count = var.aks_default_node_count
-    vm_size    = var.aks_default_vm_size
-  }
-
-  identity {
-    type = "SystemAssigned"
-  }
-
-  tags = local.tags
-}
-
-resource "azurerm_kubernetes_cluster_node_pool" "aks_cluster_node_pool" {
-  count = var.aks_additional_node_pools
-
-  name                  = format("additional%s", count.index)
-  kubernetes_cluster_id = azurerm_kubernetes_cluster.aks_cluster.id
-  vm_size               = var.aks_node_pool_vm_size
-  node_count            = var.aks_node_pool_node_count
-
-  tags = local.tags
-}
-
-output "resource_group_name" {
-  value = azurerm_resource_group.aks.name
+  aks_resource_group_name   = azurerm_resource_group.aks.name
+  postfix                   = local.environment
+  location                  = azurerm_resource_group.aks.location
+  tags                      = local.tags
+  aks_default_node_count    = var.aks_default_node_count
+  aks_additional_node_pools = var.aks_additional_node_pools
 }

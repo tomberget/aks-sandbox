@@ -1,5 +1,5 @@
 locals {
-  environment = var.postfix != "" ? format("%s-%s", var.environment, var.postfix) : var.environment
+  environment = var.terratest_postfix != "" ? format("%s-%s", var.environment, var.terratest_postfix) : var.environment
 
   tags = {
     "createdby"   = "terraform",

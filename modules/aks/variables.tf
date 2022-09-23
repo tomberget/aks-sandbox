@@ -1,25 +1,7 @@
-variable "environment" {
-  type        = string
-  description = "The environment type deployed"
-}
-
-variable "terratest_postfix" {
-  type        = string
-  description = "A postfix only used by terratest"
-  default     = ""
-}
-
-variable "location" {
-  type        = string
-  description = "The Azure location where the items will be deployed"
-  default     = "West Europe"
-}
-
 # Kubernetes (AKS)
-variable "aks_enabled" {
-  type        = bool
-  description = "Killswitch for enabling or disabling spinning up an AKS cluster"
-  default     = false
+variable "aks_resource_group_name" {
+  type        = string
+  description = "Resource Group used to spin up cluster"
 }
 
 variable "aks_default_vm_size" {
@@ -52,9 +34,17 @@ variable "aks_additional_node_pools" {
   default     = 0
 }
 
-# Windows Virtual Machine(s)
-variable "wvm_enabled" {
-  type        = bool
-  description = "Killswitch for enabling or disabling spinning up an AKS cluster"
-  default     = false
+variable "postfix" {
+  type        = string
+  description = "Postfix for resource names"
+}
+
+variable "location" {
+  type        = string
+  description = "The Azure location where the items will be deployed"
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags used for resources created"
 }

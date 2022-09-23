@@ -4,6 +4,35 @@ A sandbox for everything AKS in Azure.
 
 > This project makes use of the [EditorConfig](https://editorconfig.org/) in order to maintain consistency. For VS Code, there is an extension you need to install in order for it to work :)
 
+## Execute
+
+### Terraform Plan or Apply
+
+In order to run the terraform script and create whatever resources you need, please have a look at the **Have fun and run** section at the bottom of the page, for environmental variables that need to be exported. In addition, please execute `plan` and `apply` while adding the `--var-file` addition, like so:
+
+**PLAN**
+
+```sh
+terraform plan --var-file tfvars/$TF_ENVIRONMENT.tfvars
+```
+
+**APPLY**
+
+```sh
+terraform apply --var-file tfvars/$TF_ENVIRONMENT.tfvars
+```
+
+### Terratest
+
+*Terratest* scripts must be executed from the `test/` folder. In addition, since spinning up and AKS cluster takes a bit longer than your average resource, you need to define a timeout that is larger than the normal 10 minutes for *Go* tests. Execute the test by:
+
+```sh
+cd test
+go test -timeout 30m
+```
+
+This will provide a 30 minute window for the go tests to run.
+
 ## Creating a *Service Principal* using the *AZ CLI*
 
 ### Creating a *Service Principal* with certificate
@@ -80,4 +109,10 @@ export ARM_TENANT_ID=$(gpg --decrypt $HOME/.azure_sp/sp-terraform.json.gpg | jq 
 export ARM_ENVIRONMENT="public"
 export ARM_CLIENT_ID=$(gpg --decrypt $HOME/.azure_sp/sp-terraform.json.gpg | jq -r '.appId')
 export ARM_CLIENT_CERTIFICATE_PATH="$HOME/.azure_sp/cert.pfx"
+
+# Terraform environment
+export TF_ENVIRONMENT="sandbox"
+
+# Define workspace
+terraform workspace select $TF_ENVIRONMENT
 ```
