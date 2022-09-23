@@ -33,6 +33,18 @@ go test -timeout 30m
 
 This will provide a 30 minute window for the go tests to run.
 
+#### Nice to know about Terratest
+
+In order to not destroy resources create during normal *Terraform* applies, the *Terratest* will create its own workspace in the state file, create the resources enabled in the `test/terratest.tfvars`, do the asserts, destroy the resources and finally set the original workspace active and delete the `terratest-XYZXY` workspace.
+
+While in the middle of trial and error, the following little command might come in handy - to delete workspaces that are empty and piling up :)
+
+```sh
+terraform workspace select sandbox && terraform workspace list | grep terratest | xargs -n 1 -p terraform workspace delete
+```
+
+> NOTE that you must agree to delete each workspace, by pressing the `y` button. `n` to cancel.
+
 ## Creating a *Service Principal* using the *AZ CLI*
 
 ### Creating a *Service Principal* with certificate
