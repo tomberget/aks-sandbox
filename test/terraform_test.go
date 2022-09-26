@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TerraformAzureTest(t *testing.T) {
+func TestTerraformAzure(t *testing.T) {
 	t.Parallel()
 
 	subscriptionID := "" // subscriptionID is overridden by the environment variable "ARM_SUBSCRIPTION_ID"
