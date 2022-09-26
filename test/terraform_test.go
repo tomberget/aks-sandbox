@@ -1,4 +1,4 @@
-package test
+package terraform
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestTerraformAzureResourceGroupExample(t *testing.T) {
+func TerraformAzureTest(t *testing.T) {
 	t.Parallel()
 
 	subscriptionID := "" // subscriptionID is overridden by the environment variable "ARM_SUBSCRIPTION_ID"
@@ -18,7 +18,7 @@ func TestTerraformAzureResourceGroupExample(t *testing.T) {
 	tfVarFiles := "./tfvars/terratest.tfvars"
 
 	terraformOptions := &terraform.Options{
-		// The path to where our Terraform code is located
+		// The path to where our Terraform code is located, relative to the Go tests
 		TerraformDir: "../",
 		Vars: map[string]interface{}{
 			"terratest_postfix": uniquePostfix,
@@ -31,9 +31,8 @@ func TestTerraformAzureResourceGroupExample(t *testing.T) {
 	tfEnvironment := terraform.GetVariableAsStringFromVarFile(t, "../tfvars/terratest.tfvars", "environment")
 	temporaryWorkspace := fmt.Sprintf("%s-%s", tfEnvironment, uniquePostfix)
 
-	// Expected output
-	expectedClusterName := fmt.Sprintf("aks-cluster-%s-%s", tfEnvironment, uniquePostfix)
-	expectedClusterLocation := "westeurope"
+	// Resource group name, used for testing :: Run `terraform output` to get the values of output variables
+	resourceGroupName := terraform.Output(t, terraformOptions, "aks_resource_group_name")
 
 	// define original workspace
 	originalWorkspace, err := terraform.RunTerraformCommandAndGetStdoutE(t, terraformOptions, "workspace", "show")
@@ -55,22 +54,33 @@ func TestTerraformAzureResourceGroupExample(t *testing.T) {
 	// Create new workspace for the terratest
 	terraform.WorkspaceSelectOrNew(t, terraformOptions, temporaryWorkspace)
 
-	// website::tag::2:: Run `terraform init` and `terraform apply`. Fail the test if there are any errors.
+	// Run `terraform init` and `terraform apply`. Fail the test if there are any errors.
 	terraform.InitAndApply(t, terraformOptions)
 
-	// website::tag::3:: Run `terraform output` to get the values of output variables
-	resourceGroupName := terraform.Output(t, terraformOptions, "aks_resource_group_name")
-	aksClusterName := terraform.Output(t, terraformOptions, "aks_cluster_name")
+	// Terratest Resource Group Name
+	TestTerraformAzureResourceGroup(t, terraformOptions, resourceGroupName, subscriptionID)
 
-	// website::tag::4:: Verify the items exists
+	// Terratest AKS cluster creation
+	TestTerraformAzureAKS(t, terraformOptions, tfEnvironment, uniquePostfix, resourceGroupName, subscriptionID)
+}
+
+func TestTerraformAzureResourceGroup(t *testing.T, o *terraform.Options, resourceGroupName string, subscriptionID string) {
+	// Verify the items exists
 	existsAksResourceGroup := azure.ResourceGroupExists(t, resourceGroupName, subscriptionID)
-	actualAksCluster, err := azure.GetManagedClusterE(t, resourceGroupName, aksClusterName, subscriptionID)
 
 	// Verify Resource Group creation
 	assert.True(t, existsAksResourceGroup, "Resource group does not exist")
+}
+
+func TestTerraformAzureAKS(t *testing.T, o *terraform.Options, tfEnvironment string, uniquePostfix string, resourceGroupName string, subscriptionID string) {
+	// Expected output
+	expectedClusterName := fmt.Sprintf("aks-cluster-%s-%s", tfEnvironment, uniquePostfix)
+	expectedClusterLocation := "westeurope"
+
+	aksClusterName := terraform.Output(t, o, "aks_cluster_name")
+	actualAksCluster, _ := azure.GetManagedClusterE(t, resourceGroupName, aksClusterName, subscriptionID)
 
 	// Verify AKS Creation
 	assert.Equal(t, expectedClusterName, *(*&actualAksCluster.Name), "AKS cluster names do not match.")
 	assert.Equal(t, expectedClusterLocation, *(*&actualAksCluster.Location), "Azure location is not correct.")
-
 }
