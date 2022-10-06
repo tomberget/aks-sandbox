@@ -8,6 +8,3 @@ helmCharts:
     namespace: ingress-nginx
     valuesFile: ./values.yaml
     includeCRDs: true
-
-resources:
-- namespace.yaml

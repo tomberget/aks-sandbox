@@ -60,7 +60,7 @@ variable "aks_additional_node_pools" {
 
 variable "prometheus_operator_version" {
   description = "The Prometheus Operator version to use CRDs from."
-  type = string
+  type        = string
 }
 
 # Windows Virtual Machine(s)
