@@ -15,6 +15,12 @@ variable "location" {
   default     = "West Europe"
 }
 
+variable "extra_tags" {
+  type        = map(string)
+  description = "Extra tags to add to the Azure Resources"
+  default     = {}
+}
+
 # Kubernetes (AKS)
 variable "aks_enabled" {
   type        = bool
@@ -25,7 +31,7 @@ variable "aks_enabled" {
 variable "aks_default_vm_size" {
   type        = string
   description = "What kind of Virtual Machines the cluster will be utilizing."
-  default     = "Standard_D2_v2"
+  default     = "Standard_D2_v5"
 }
 
 variable "aks_default_node_count" {
@@ -50,6 +56,11 @@ variable "aks_additional_node_pools" {
   type        = number
   description = "The number of additional node pools to spin up"
   default     = 0
+}
+
+variable "prometheus_operator_version" {
+  description = "The Prometheus Operator version to use CRDs from."
+  type = string
 }
 
 # Windows Virtual Machine(s)

@@ -1,18 +1,21 @@
-package terraform
+package terratest
 
 import (
 	"fmt"
+	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/stretchr/testify/require"
 )
 
 func TestTerraformAzure(t *testing.T) {
 	t.Parallel()
 
 	subscriptionID := "" // subscriptionID is overridden by the environment variable "ARM_SUBSCRIPTION_ID"
-	uniquePostfix := random.UniqueId()
+	uniquePostfix := strings.ToLower(random.UniqueId())
 	tfVarFiles := "./tfvars/terratest.tfvars"
 
 	terraformOptions := &terraform.Options{
@@ -36,7 +39,7 @@ func TestTerraformAzure(t *testing.T) {
 	}
 
 	defer func() {
-		// website::tag::4:: At the end of the test, run `terraform destroy` to clean up any resources that were created
+		// At the end of the test, run `terraform destroy` to clean up any resources that were created
 		terraform.Destroy(t, terraformOptions)
 
 		// set workspace to the default workspace
@@ -59,5 +62,16 @@ func TestTerraformAzure(t *testing.T) {
 	TerraTestAzureResourceGroup(t, terraformOptions, resourceGroupName, subscriptionID)
 
 	// Terratest AKS cluster creation
-	TerraTestAzureAKS(t, terraformOptions, tfEnvironment, uniquePostfix, resourceGroupName, subscriptionID)
+	// Create variable to check if AKS Cluster is enabled in the tfvars file
+	aks_enabled, err := strconv.ParseBool(terraform.GetVariableAsStringFromVarFile(t, "../tfvars/terratest.tfvars", "aks_enabled"))
+	require.NoError(t, err)
+
+	// Only run AKS test if the variable `aks_enabled` is actually true
+	if aks_enabled {
+		// Test the managed AKS resource
+		TerraTestAzureAKS(t, terraformOptions, tfEnvironment, uniquePostfix, resourceGroupName, subscriptionID)
+
+		// Test Kubernetes
+		TerraTestKubernetes(t, tfEnvironment, uniquePostfix)
+	}
 }

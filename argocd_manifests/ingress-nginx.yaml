@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ingress-nginx
+spec:
+  destination:
+    name: ""
+    namespace: ingress-nginx
+    server: "https://kubernetes.default.svc"
+  source:
+    repoURL: https://github.com/tomberget/aks-sandbox.git
+    path: apps/ingress-nginx
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true

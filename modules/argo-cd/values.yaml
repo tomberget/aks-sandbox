@@ -1,0 +1,37 @@
+## Custom resource configuration
+crds:
+  # -- Install and upgrade CRDs
+  install: ${crds_install}
+
+## Application controller metrics configuration
+metrics:
+  # -- Deploy metrics service
+  enabled: ${metrics_enabled}
+  serviceMonitor:
+    # -- Enable a prometheus ServiceMonitor
+    enabled: ${metrics_enabled}
+  rules:
+    # -- Deploy a PrometheusRule for the application controller
+    enabled: ${prometheus_rules_enabled}
+
+redis-ha:
+  enabled: ${redis_enabled}
+
+controller:
+  replicas: ${controller_replicas}
+
+server:
+  configEnabled: true
+  config:
+    kustomize.buildOptions: --enable-helm
+  autoscaling:
+    enabled: ${autoscaling_enabled}
+    minReplicas: ${replicas}
+
+repoServer:
+  autoscaling:
+    enabled: ${autoscaling_enabled}
+    minReplicas: ${replicas}
+
+applicationSet:
+  replicas: ${replicas}

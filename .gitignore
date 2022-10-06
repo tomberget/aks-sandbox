@@ -12,3 +12,6 @@ dev.log
 
 # Do not include terraform config file
 .tfconfig
+
+# Do not include any kube config
+kube/config

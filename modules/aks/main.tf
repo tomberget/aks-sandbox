@@ -28,10 +28,10 @@ resource "azurerm_kubernetes_cluster_node_pool" "aks_cluster_node_pool" {
   tags = var.tags
 }
 
-output "aks_cluster_name" {
-  value = azurerm_kubernetes_cluster.aks_cluster.name
-}
+resource "local_sensitive_file" "kube_config" {
+  filename        = "./kube/config"
+  content         = azurerm_kubernetes_cluster.aks_cluster.kube_config_raw
+  file_permission = "0600"
 
-output "aks_cluster_location" {
-  value = azurerm_kubernetes_cluster.aks_cluster.location
+  depends_on = [azurerm_kubernetes_cluster.aks_cluster]
 }

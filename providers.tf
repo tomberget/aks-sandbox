@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "~> 2.0"
     }
+    helm = {
+      source = "hashicorp/helm"
+      version = "~> 2.0"
+    }
     local = {
       source  = "hashicorp/local"
       version = "~> 2"
@@ -29,7 +33,7 @@ terraform {
     key                  = "default.terraform.tfstate"
   }
 
-  required_version = "~> 1.2"
+  required_version = "~> 1.3"
 }
 
 provider "azurerm" {

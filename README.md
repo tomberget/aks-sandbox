@@ -1,6 +1,12 @@
-# AKS Sandbox
+# Terratest Sandbox
 
-A sandbox for everything AKS in Azure.
+A sandbox for testing AKS in Azure. For now, tests are limited to:
+
+- Resource group
+  - Name
+- AKS
+  - Cluster Name
+  - Location
 
 > This project makes use of the [EditorConfig](https://editorconfig.org/) in order to maintain consistency. For VS Code, there is an extension you need to install in order for it to work :)
 
@@ -24,14 +30,14 @@ terraform apply --var-file tfvars/$TF_ENVIRONMENT.tfvars
 
 ### Terratest
 
-*Terratest* scripts must be executed from the `test/` folder. In addition, since spinning up and AKS cluster takes a bit longer than your average resource, you need to define a timeout that is larger than the normal 10 minutes for *Go* tests. Execute the test by:
+*Terratest* scripts does not need be executed from the `test/` folder. But, if you do not, you need to add `-v` to make the test verbose. Also, since spinning up and AKS cluster takes a bit longer than your average resource, you need to define a timeout that is larger than the normal 10 minutes for *Go* tests. Execute the test by:
 
 ```sh
-cd test
-go test -timeout 30m
+go test -v -timeout 30m ./...
 ```
 
-This will provide a 30 minute window for the go tests to run.
+> This will provide a 30 minute window for the go tests to run.
+> The `./...` section means, execute all tests in this folder, and all subfolders.
 
 #### Nice to know about Terratest
 
