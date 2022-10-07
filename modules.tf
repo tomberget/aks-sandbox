@@ -4,7 +4,7 @@ module "argo_cd" {
   chart_version       = "5.5.8"
   application_version = "v2.4.13"
   name                = "argo-cd"
-  namespace           = kubernetes_namespace.argo_cd.metadata.0.name
+  namespace           = kubernetes_namespace.namespaces["argocd"].metadata.0.name
 
   redis_enabled            = true
   autoscaling_enabled      = true
@@ -27,5 +27,22 @@ resource "kubernetes_manifest" "ingress_nginx" {
 
   depends_on = [
     module.argo_cd,
+    kubernetes_namespace.namespaces["ingress-nginx"],
+  ]
+}
+
+# Implement Kube-Prometheus-Stack
+resource "kubernetes_manifest" "kube_prometheus_stack" {
+  manifest = yamldecode(file("${path.module}/argocd_manifests/kube-prometheus-stack.yaml"))
+
+  field_manager {
+    force_conflicts = true
+  }
+
+  depends_on = [
+    module.argo_cd,
+    kubernetes_manifest.prometheus_operator_crd,
+    kubernetes_manifest.ingress_nginx,
+    kubernetes_namespace.namespaces["monitoring"],
   ]
 }
