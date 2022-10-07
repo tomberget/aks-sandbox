@@ -2,7 +2,8 @@ locals {
   namespaces = [
     "argocd",
     "monitoring",
-    "ingress-nginx"
+    "ingress-nginx",
+    "cert-manager",
   ]
 }
 

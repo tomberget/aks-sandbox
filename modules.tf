@@ -46,3 +46,19 @@ resource "kubernetes_manifest" "kube_prometheus_stack" {
     kubernetes_namespace.namespaces["monitoring"],
   ]
 }
+
+# Implement Cert-Manager
+resource "kubernetes_manifest" "cert_manager" {
+  manifest = yamldecode(file("${path.module}/argocd_manifests/cert-manager.yaml"))
+
+  field_manager {
+    force_conflicts = true
+  }
+
+  depends_on = [
+    module.argo_cd,
+    kubernetes_manifest.prometheus_operator_crd,
+    kubernetes_manifest.ingress_nginx,
+    kubernetes_namespace.namespaces["cert-manager"],
+  ]
+}

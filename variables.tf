@@ -63,6 +63,37 @@ variable "prometheus_operator_version" {
   type        = string
 }
 
+# Cert-Manager
+variable "cert_manager_version" {
+  description = "The Cert-Manager version"
+  type        = string
+}
+
+variable "hostname" {
+  description = "Hostname to use."
+  type        = string
+}
+
+variable "dns_sp_id" {
+  description = "Service Principal Id for DNS"
+  type        = string
+}
+
+variable "subscription_id" {
+  description = "Subscription Id for Azure"
+  type        = string
+}
+
+variable "tenant_id" {
+  description = "Tenant Id for Azure"
+  type        = string
+}
+
+variable "email_address" {
+  description = "Email address for Cert Manager"
+  type = string
+}
+
 # Windows Virtual Machine(s)
 variable "wvm_enabled" {
   type        = bool
