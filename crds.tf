@@ -11,3 +11,16 @@ resource "kubernetes_manifest" "prometheus_operator_crd" {
     module.aks
   ]
 }
+
+resource "kubernetes_manifest" "cert_manager_crd" {
+  for_each = toset(["certificaterequests", "certificates", "challenges.acme", "clusterissuers", "issuers", "orders.acme"])
+  manifest = yamldecode(file("${path.module}/apps/cert-manager/crds/${var.cert_manager_version}/${each.key}.cert-manager.io.yaml"))
+
+  field_manager {
+    force_conflicts = true
+  }
+
+  depends_on = [
+    module.aks
+  ]
+}
