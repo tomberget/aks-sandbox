@@ -1,20 +1,20 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: ingress-nginx
+  name: kube-prometheus-stack
   namespace: argocd
 spec:
   destination:
     name: ""
-    namespace: ingress-nginx
+    namespace: monitoring
     server: "https://kubernetes.default.svc"
   source:
     repoURL: https://github.com/tomberget/aks-sandbox.git
-    path: ./apps/ingress-nginx
+    path: ./apps/kube-prometheus-stack
   project: default
   syncPolicy:
     automated:
       prune: true
       selfHeal: false
     syncOptions:
-      - CreateNamespace=true
+      - CreateNamespace=false

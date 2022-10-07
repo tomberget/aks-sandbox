@@ -1,5 +1,14 @@
-resource "kubernetes_namespace" "argo_cd" {
+locals {
+  namespaces = [
+    "argocd",
+    "monitoring",
+    "ingress-nginx"
+  ]
+}
+
+resource "kubernetes_namespace" "namespaces" {
+  for_each = toset(local.namespaces)
   metadata {
-    name = "argo-cd"
+    name = each.key
   }
 }
