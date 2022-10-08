@@ -4,6 +4,7 @@ locals {
     "monitoring",
     "ingress-nginx",
     "cert-manager",
+    "external-dns",
   ]
 }
 
