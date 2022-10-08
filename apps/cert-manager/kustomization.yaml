@@ -4,7 +4,7 @@ kind: Kustomization
 helmCharts:
   - name: cert-manager
     version: 1.9.1
-    repo: https://prometheus-community.github.io/helm-charts
+    repo: https://charts.jetstack.io
     namespace: cert-manager
     valuesFile: ./values.yaml
     includeCRDs: false
