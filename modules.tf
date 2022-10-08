@@ -57,8 +57,22 @@ resource "kubernetes_manifest" "cert_manager" {
 
   depends_on = [
     module.argo_cd,
-    kubernetes_manifest.prometheus_operator_crd,
     kubernetes_manifest.ingress_nginx,
     kubernetes_namespace.namespaces["cert-manager"],
+  ]
+}
+
+# Implement External-DNS
+resource "kubernetes_manifest" "external_dns" {
+  manifest = yamldecode(file("${path.module}/argocd_manifests/external-dns.yaml"))
+
+  field_manager {
+    force_conflicts = true
+  }
+
+  depends_on = [
+    module.argo_cd,
+    kubernetes_manifest.ingress_nginx,
+    kubernetes_namespace.namespaces["external-dns"],
   ]
 }
