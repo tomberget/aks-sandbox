@@ -5,6 +5,6 @@ helmCharts:
   - name: external-dns
     version: 6.x
     repo: https://charts.bitnami.com/bitnami
-    namespace: monitoring
+    namespace: external-dns
     valuesFile: ./values.yaml
     includeCRDs: false
