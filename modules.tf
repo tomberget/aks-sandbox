@@ -11,6 +11,7 @@ module "argo_cd" {
   controller_replicas      = 1
   metrics_enabled          = false
   prometheus_rules_enabled = false
+  hostname                 = var.hostname
 
   depends_on = [
     azurerm_resource_group.aks

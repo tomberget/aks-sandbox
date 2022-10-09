@@ -46,3 +46,8 @@ variable "prometheus_rules_enabled" {
   type        = bool
   default     = false
 }
+
+variable "hostname" {
+  description = "Hostname domain appendix"
+  type = string
+}

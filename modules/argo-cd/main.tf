@@ -8,6 +8,11 @@ resource "kubernetes_manifest" "argocd_crd" {
   }
 }
 
+# Ingress Hostname
+locals {
+  ingress_hostname = format("argocd.%s", var.hostname)
+}
+
 resource "helm_release" "argo_cd" {
   name       = var.name
   namespace  = var.namespace
@@ -24,6 +29,9 @@ resource "helm_release" "argo_cd" {
       replicas                 = var.autoscaling_enabled ? 2 : 1
       metrics_enabled          = var.metrics_enabled
       prometheus_rules_enabled = var.prometheus_rules_enabled
+      ingress_enabled          = true
+      ingress_hostname         = local.ingress_hostname
+      tls_secret_name          = format("%s-tls",replace(local.ingress_hostname, ".", "-"))
     }),
   ]
 

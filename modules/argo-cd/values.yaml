@@ -27,6 +27,40 @@ server:
   autoscaling:
     enabled: ${autoscaling_enabled}
     minReplicas: ${replicas}
+  ingress:
+    # -- Enable an ingress resource for the Argo CD server
+    enabled: ${ingress_enabled}
+    # -- Additional ingress annotations
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-issuer
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    # -- Additional ingress labels
+    labels: {}
+    # -- Defines which ingress controller will implement the resource
+    ingressClassName: "nginx"
+
+    # -- List of ingress hosts
+    ## Argo Ingress.
+    ## Hostnames must be provided if Ingress is enabled.
+    ## Secrets must be manually created in the namespace
+    hosts:
+    - ${ingress_hostname}
+
+    # -- List of ingress paths
+    paths:
+      - /
+    # -- Ingress path type. One of `Exact`, `Prefix` or `ImplementationSpecific`
+    pathType: Prefix
+
+    # -- Ingress TLS configuration
+    tls:
+    - secretName: ${tls_secret_name}
+      hosts:
+        - ${ingress_hostname}
+
+    # -- Uses `server.service.servicePortHttps` instead `server.service.servicePortHttp`
+    https: false
 
 repoServer:
   autoscaling:
