@@ -5,6 +5,7 @@ locals {
     "ingress-nginx",
     "cert-manager",
     "external-dns",
+    "budibase",
   ]
 }
 

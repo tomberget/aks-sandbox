@@ -23,6 +23,13 @@ locals {
         "nginx.ingress.kubernetes.io/ssl-passthrough" = "true"
         "nginx.ingress.kubernetes.io/backend-protocol" = "HTTPS"
       }
+    },
+    budibase = {
+      enabled = true
+      namespace = kubernetes_namespace.namespaces["budibase"].metadata.0.name
+      app_service_name = "proxy-service"
+      app_service_port = 10000
+      annotations = {}
     }
   }
 }
