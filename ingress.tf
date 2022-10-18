@@ -29,7 +29,13 @@ locals {
       namespace        = kubernetes_namespace.namespaces["budibase"].metadata.0.name
       app_service_name = "proxy-service"
       app_service_port = 10000
-      annotations      = {}
+      annotations = {
+        "nginx.ingress.kubernetes.io/client-max-body-size"    = "150M"
+        "nginx.ingress.kubernetes.io/proxy-body-size"         = "50m"
+        "nginx.ingress.kubernetes.io/proxy-buffer-size"       = "256k"
+        "nginx.ingress.kubernetes.io/proxy-buffers"           = "4 512k"
+        "nginx.ingress.kubernetes.io/proxy-busy-buffers-size" = "512k"
+      }
     }
   }
 }
