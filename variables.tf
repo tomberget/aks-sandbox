@@ -91,7 +91,7 @@ variable "tenant_id" {
 
 variable "email_address" {
   description = "Email address for Cert Manager"
-  type = string
+  type        = string
 }
 
 # Windows Virtual Machine(s)

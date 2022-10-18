@@ -1,6 +1,6 @@
 # Define host and tls secret
 locals {
-  ingress_host = format("%s.%s", var.name, var.hostname)
+  ingress_host    = format("%s.%s", var.name, var.hostname)
   tls_secret_name = format("%s-tls", replace(local.ingress_host, ".", "-"))
 
   default_annotations = {
@@ -13,8 +13,8 @@ locals {
 # Create ingress resource
 resource "kubernetes_ingress_v1" "ingress" {
   metadata {
-    name = var.name
-    namespace = var.namespace
+    name        = var.name
+    namespace   = var.namespace
     annotations = local.annotations
   }
 

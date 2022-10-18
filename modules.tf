@@ -9,7 +9,7 @@ module "argo_cd" {
   redis_enabled            = true
   autoscaling_enabled      = true
   controller_replicas      = 1
-  metrics_enabled          = false
+  metrics_enabled          = true
   prometheus_rules_enabled = false
   hostname                 = var.hostname
 

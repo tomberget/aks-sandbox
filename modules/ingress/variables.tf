@@ -1,11 +1,11 @@
 variable "name" {
   description = "Used to define name of the resource, as well as the host identifier."
-  type = string
+  type        = string
 }
 
 variable "namespace" {
   description = "Define the namespace where the resource should be created"
-  type = string
+  type        = string
 }
 
 variable "annotations" {
@@ -16,12 +16,12 @@ variable "annotations" {
       "other_key" = "other_value",
     }
     EOT
-  type = map(string)
+  type        = map(string)
 }
 
 variable "ingress_class_name" {
   description = "The ingress class that should be used for the ingress resource."
-  type = string
+  type        = string
 }
 
 variable "hostname" {
@@ -30,17 +30,17 @@ variable "hostname" {
 
 variable "app_service_name" {
   description = "The service name of the application that the ingress resource should connect to."
-  type = string
+  type        = string
 }
 
 variable "app_service_port" {
   description = "The service port of the application that the ingress resource should connect to."
-  type = number
-  default = 80
+  type        = number
+  default     = 80
 }
 
 variable "path" {
   description = "Default path of the application"
-  type = string
-  default = "/"
+  type        = string
+  default     = "/"
 }

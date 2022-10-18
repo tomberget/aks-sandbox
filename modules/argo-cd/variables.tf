@@ -49,5 +49,5 @@ variable "prometheus_rules_enabled" {
 
 variable "hostname" {
   description = "Hostname domain appendix"
-  type = string
+  type        = string
 }

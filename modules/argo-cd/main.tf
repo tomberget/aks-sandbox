@@ -31,7 +31,7 @@ resource "helm_release" "argo_cd" {
       prometheus_rules_enabled = var.prometheus_rules_enabled
       ingress_enabled          = true
       ingress_hostname         = local.ingress_hostname
-      tls_secret_name          = format("%s-tls",replace(local.ingress_hostname, ".", "-"))
+      tls_secret_name          = format("%s-tls", replace(local.ingress_hostname, ".", "-"))
     }),
   ]
 
