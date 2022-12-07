@@ -19,6 +19,3 @@ cert_manager_version = "v1.10.1"
 
 # Argo-CD
 argo_cd_version = "v2.5.4"
-
-# Windows Virtual Machines
-wvm_enabled = false
