@@ -1,13 +1,3 @@
-# Create/Update CRDs
-resource "kubernetes_manifest" "argocd_crd" {
-  for_each = toset(["application-crd", "applicationset-crd", "appproject-crd"])
-  manifest = yamldecode(file("${path.module}/crds/${var.application_version}/${each.key}.yaml"))
-
-  field_manager {
-    force_conflicts = true
-  }
-}
-
 # Ingress Hostname
 locals {
   ingress_hostname = format("argocd.%s", var.hostname)
@@ -33,9 +23,5 @@ resource "helm_release" "argo_cd" {
       ingress_hostname         = local.ingress_hostname
       tls_secret_name          = format("%s-tls", replace(local.ingress_hostname, ".", "-"))
     }),
-  ]
-
-  depends_on = [
-    kubernetes_manifest.argocd_crd
   ]
 }

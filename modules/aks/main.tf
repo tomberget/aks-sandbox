@@ -14,6 +14,10 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     type = "SystemAssigned"
   }
 
+  network_profile {
+    network_plugin = "none"
+  }
+
   tags = var.tags
 }
 

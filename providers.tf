@@ -28,7 +28,7 @@ terraform {
 
   backend "azurerm" {
     resource_group_name  = "iac"
-    storage_account_name = "terraformstate5089a"
+    storage_account_name = "terraformstate4699f"
     container_name       = "tfstate"
     key                  = "default.terraform.tfstate"
   }

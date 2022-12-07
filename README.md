@@ -68,7 +68,7 @@ Then, create the *Resource Group* and *Key Vault* necessary for the *Service Pri
 
 ```bash
 az group create --name $RESOURCE_GROUP_NAME --location $LOCATION --tags created=azcli purpose=iac
-az keyvault create --name iacvault"$RANDSTRING" --resource-group $RESOURCE_GROUP_NAME --location $LOCATION \
+az keyvault create --name iacvault"$RANDSTRING" --resource-group $RESOURCE_GROUP_NAME --location $LOCATION --subscription $SUBSCRIPTIONID \
 --tags created=azcli purpose=iac
 ```
 
@@ -80,7 +80,7 @@ Create the Service Principal using the following command:
 ```bash
 az ad sp create-for-rbac --name $SP_NAME \
 --role Contributor \
---scopes /subscriptions/$ARM_SUBSCRIPTION_ID/resourceGroups/$RESOURCE_GROUP_NAME \
+--scopes /subscriptions/$ARM_SUBSCRIPTION_ID \
 --create-cert \
 --cert "$SP_NAME"-cert \
 --keyvault iacvault"$RANDSTRING" \
@@ -94,20 +94,6 @@ Export the certificate:
 
 ```bash
 az keyvault secret download --file /path/to/cert.pfx --vault-name iacvault"$RANDSTRING" --name "$SP_NAME"-cert --encoding base64
-```
-
-Now, enter the Azure Portal, and add the *Service Principal* as a **Contributor** (or other proper role) to the *Subscription*.
-
-### Create a *VNET* to use for the *Storage Account*
-
-A VNET should not be created to support the IaC alone, and should be something that a bit more thought is put into. However, in order to create one quickly and easy, and in the `iac` resource group, you can use the command below.
-
-> A *VNET* is necessary for the *Storage Account* to function.
-
-```bash
-az network vnet create -g $RESOURCE_GROUP_NAME -n iacvnet --address-prefix 10.255.0.0/16 \
---subnet-name iacsubnet01 --subnet-prefix 10.255.0.0/24 --location $LOCATION \
---tags created=azcli purpose=iac
 ```
 
 ### Create a *Storage Account*
@@ -134,3 +120,6 @@ export TF_ENVIRONMENT="sandbox"
 # Define workspace
 terraform workspace select $TF_ENVIRONMENT
 ```
+
+<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

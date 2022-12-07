@@ -100,3 +100,19 @@ variable "wvm_enabled" {
   description = "Killswitch for enabling or disabling spinning up an AKS cluster"
   default     = false
 }
+
+variable "cilium_version" {
+  type        = string
+  description = "Cilium CNI version"
+}
+
+variable "cilium_cni_enabled" {
+  type        = bool
+  description = "Killswitch for enabling or disabling Cilium CNI"
+  default     = false
+}
+
+variable "argo_cd_version" {
+  type        = string
+  description = "Version of ArgoCD"
+}

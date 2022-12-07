@@ -1,11 +1,6 @@
 locals {
   namespaces = [
-    "argocd",
-    "monitoring",
-    "ingress-nginx",
-    "cert-manager",
-    "external-dns",
-    "budibase",
+    "argo-cd",
   ]
 }
 
