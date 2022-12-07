@@ -9,4 +9,5 @@ module "aks" {
   tags                      = local.tags
   aks_default_node_count    = var.aks_default_node_count
   aks_additional_node_pools = var.aks_additional_node_pools
+  aks_default_vm_size       = var.aks_default_vm_size
 }

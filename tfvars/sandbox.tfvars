@@ -5,6 +5,7 @@ environment = "sandbox"
 aks_enabled               = true
 aks_default_node_count    = 3
 aks_additional_node_pools = 0
+aks_default_vm_size       = "Standard_D2_v2" # "Standard_D2ds_v5"
 
 # CNI
 cilium_cni_enabled = true
